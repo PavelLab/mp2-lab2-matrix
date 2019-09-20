@@ -82,6 +82,7 @@ ValType& TVector<ValType>::operator[](int pos)
 template <class ValType> // сравнение
 bool TVector<ValType>::operator==(const TVector &v) const
 {
+	return true;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
