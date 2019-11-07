@@ -60,8 +60,10 @@ public:
 };
 
 template <class ValType>
-TVector<ValType>::TVector(int s = 2, int si = 0)
+TVector<ValType>::TVector(int s, int si )
 {
+	if ((s < 0) || (s > MAX_VECTOR_SIZE) || (si < 0) )
+		throw "wrong data";
 	Size = s;
 	StartIndex = si;
 	pVector = new ValType[Size];
@@ -91,6 +93,8 @@ TVector<ValType>::~TVector()
 template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
+	if ((pos < StartIndex) || (pos >= Size + StartIndex))
+		throw "wrong data";
 	return pVector[pos - StartIndex];
 } /*-------------------------------------------------------------------------*/
 
@@ -170,6 +174,7 @@ TVector<ValType> TVector<ValType>::operator*(const ValType &val)
 template <class ValType> // сложение
 TVector<ValType> TVector<ValType>::operator+(const TVector<ValType> &v)
 {
+	if (Size != v.Size||StartIndex!=v.StartIndex) throw "Not equal vector";
 	TVector<ValType> res(Size,StartIndex);
 	for (int i = 0; i < Size; i++) {
 		res.pVector[i] = pVector[i] + v.pVector[i];
@@ -180,6 +185,7 @@ TVector<ValType> TVector<ValType>::operator+(const TVector<ValType> &v)
 template <class ValType> // вычитание
 TVector<ValType> TVector<ValType>::operator-(const TVector<ValType> &v)
 {
+	if (Size != v.Size || StartIndex != v.StartIndex) throw "Not equal vector";
 	TVector<ValType> res(Size, StartIndex);
 	for (int i = 0; i < Size; i++) {
 		res.pVector[i] = pVector[i] - v.pVector[i];
@@ -190,9 +196,10 @@ TVector<ValType> TVector<ValType>::operator-(const TVector<ValType> &v)
 template <class ValType> // скалярное произведение
 ValType TVector<ValType>::operator*(const TVector<ValType> &v)
 {
+	if (Size != v.Size || StartIndex != v.StartIndex) throw "Not equal vector";
 	ValType sum = 0;
 	for (int i = 0; i < Size; i++)
-		sum += pVector[i] * v.pVector[i];
+		sum = sum+pVector[i] * v.pVector[i];
 	return sum;
 } /*-------------------------------------------------------------------------*/
 
@@ -229,6 +236,7 @@ public:
 template <class ValType>
 TMatrix<ValType>::TMatrix(int s): TVector<TVector<ValType> >(s)
 {
+	if ((s > MAX_MATRIX_SIZE)) throw "wrong data";
 	for (int i = 0; i < s; i++) {
 		TVector<ValType> temp(s - i, i);
 		pVector[i] = temp;
