@@ -42,11 +42,11 @@ TEST(TVector, copied_vector_is_equal_to_source_one)
 	}
 }
 
-/*TEST(TVector, copied_vector_has_its_own_memory)
+TEST(TVector, copied_vector_has_its_own_memory)
 {
 	int size = 10;
 	TVector<int> *v;
-	v = new TVector<int>[size];
+	v = new TVector<int>(size);
 	for (int i = 0; i < size; i++) {
 		(*v)[i] = i;
 	}
@@ -55,7 +55,7 @@ TEST(TVector, copied_vector_is_equal_to_source_one)
 	for (int i = 0; i < size; i++) {
 		EXPECT_EQ(i, v1[i]);
 	}
-}*/
+}
 
 TEST(TVector, can_get_size)
 {
